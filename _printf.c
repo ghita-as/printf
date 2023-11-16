@@ -2,55 +2,67 @@
 
 /**
  * _printf - Custom printf function with limited functionality
- * This function prints formatted output to the standard output
+ * @format: Format string with directives
+ * @...: Variable number of arguments
  *
- * @format: Format string with directives it may contain conversion specifiers
- * such as '%c', '%s', and '%%'and it supports basic formatting options
- * but does not handle all features of the standard printf.
+ * This function prints formatted output to the standard output.
+ * The format string may contain conversion specifiers such as '%c', '%s', and '%%'.
+ * It supports basic formatting options but does not handle all features of the standard printf.
  *
- * Return: Number of characters printed excluding the null byte
+ * Return: Number of characters printed (excluding the null byte)
  */
-
 int _printf(const char *format, ...)
 {
-	int s = 0;
-	va_list a;
-	char *p, *start;
-	params_t params = PARAMS_INIT;
+	int s = 0; /* Variable to track the number of characters printed */
+	va_list a; /* Variable argument list */
+	char *p, *start; /* Pointers for iterating through the format string */
+	params_t params = PARAMS_INIT; /* Initialize parameters struct */
 
 	va_start(a, format);
 
+	/* Check for invalid format string */
 	if (!format || (format[0] == '%' && !format[1]))
 		return (-1);
 	if (format[0] == '%' && format[1] == ' ' && !format[2])
 		return (-1);
+
 	for (p = (char *)format; *p; p++)
 	{
 		init_params(&params, a);
+
+		/* If the current character is not '%', print it and continue */
 		if (*p != '%')
 		{
 			s += _putchar(*p);
 			continue;
 		}
-		start = p;
+
+		start = p; /* Save the starting position of the specifier */
 		p++;
-		while (get_flags(p, &params)) /* while char at p is flag character*/
+
+		/* Process flags and modifiers */
+		while (get_flags(p, &params))
 		{
-			p++; /* next character*/
+			p++;
 		}
+
+		/* Get width and precision values */
 		p = get_width(p, &params, a);
 		p = get_precision(p, &params, a);
+
+		/* Check if the specifier is valid, then call the appropriate function */
 		if (!get_specifier(p))
 		{
-			sum += print_from_to(start, p,
-					params.modifier_l || params.modifier_h ? p - 1 : 0);
+			s += print_from_to(start, p, params.modifier_l || params.modifier_h ? p - 1 : 0);
 		}
 		else
 		{
-			sum += get_print_function(p, a, &params);
+			s += get_print_function(p, a, &params);
 		}
 	}
+
 	_putchar(BUF_FLUSH);
 	va_end(a);
+
 	return (s);
 }
