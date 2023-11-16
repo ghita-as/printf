@@ -7,27 +7,33 @@
  * Return: the printed bytes number
  */
 
-int print_rot13(va_list a, params_t *params)
+int printf_rot13(va_list a)
 {
-        int i, j;
-        int c = 0;
-        char ar[] = "ABCDEFGHIJKLMOPQRSTUVWXYZ  abcdefjhijklmnopqrstuvwxyz";
-        char *s = va_arg(a, char *);
-        (void)params;
+	int i, j, counter = 0;
+	int k = 0;
+	char *s = va_arg(args, char*);
+	char alpha[] = {"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"};
+	char beta[] = {"nopqrstuvwxyzabcdefghijklmNOPQRSTUVWXYZABCDEFGHIJKLM"};
 
-        i = 0;
-        j = 0;
-        while (s[i])
-        {
-                if ((s[i] >= 'A' && a[i] <= 'Z')
-                                || (s[i] >= 'a' && s[i] <= 'z'))
-                {
-                        j = s[i] - 65;
-                        c += _putchar(ar[j]);
-                }
-                else
-                        c = _putchar(ar[i]);
-                i++;
-        }
-        return (c);
+	if (s == NULL)
+		s = "(null)";
+	for (i = 0; s[i]; i++)
+	{
+		k = 0;
+		for (j = 0; alpha[j] && !k; j++)
+		{
+			if (s[i] == alpha[j])
+			{
+				_putchar(beta[j]);
+				counter++;
+				k = 1;
+			}
+		}
+		if (!k)
+		{
+			_putchar(s[i]);
+			counter++;
+		}
+	}
+	return (counter);
 }

@@ -89,7 +89,7 @@ int print_octal(va_list a, params_t *params);
 /* simple_printers.c modules*/
 int print_from_to(char *begin, char *end, char *ex);
 int print_reverse(va_list a, params_t *params);
-int print_rot13(va_list a, params_t *params);
+int print_rot13(va_list a);
 
 /* print_number.c modules*/
 int _isdigit(int d);
