@@ -39,6 +39,63 @@ struct fmt
  */
 typedef struct fmt fmt_t;
 
+<<<<<<< HEAD
+=======
+typedef struct specifier
+{
+	char *specifier;
+	int (*s)(va_list, params_t *);
+} specifier_t;
+
+/*_ put modules*/
+int _puts(char *str);
+int _putchar(int c);
+
+/* print_functions modules*/
+int print_character(va_list a, params_t *params);
+int print_integer(va_list a, params_t *params);
+int print_string(va_list a, params_t *params);
+int print_percent(va_list a, params_t *params);
+int print_capS(va_list a, params_t *params);
+
+/* number.c modules*/
+char *convert(long int n, int b, int f, params_t *params);
+int print_unsigned(va_list a, params_t *params);
+int print_address(va_list a, paramss_t *params);
+
+/* specifier.c modules*/
+int (*get_specifier(char *s))(va_list a, params_t *params);
+int get_print_function(char *s, va_list a, params_t *params);
+int get_flags(char *s, params_t *params);
+int get_modifier(char *s, params_t *params);
+char *get_width(char *s, params_t *params, va_list a);
+
+/* convert_number.c modules*/
+int prin_hexa(va_list a, params_t *params);
+int print_HEXA(va_list a, params_t *params);
+int print_binary(va_list a, params_t *params);
+int print_octal(va_list a, params_t *params);
+
+/* simple_printers.c modules*/
+int print_from_to(char *begin, char *end, char *ex);
+int print_reverse(va_list a, params_t *params);
+int print_rot13(va_list a);
+
+/* print_number.c modules*/
+int _isdigit(int d);
+int _strlen(char *s);
+int print_number(char *s, params_t *params);
+int print_number_right(char *s, params_t *params);
+int print_number_left(char *s, params_t *params);
+
+/* params.c modules*/
+void init_params(params_t *params, va_list a);
+
+/* string_fields.c modules*/
+char *get_precision(char *p, params_t *params, va_list a);
+
+/* _printf.c module */
+>>>>>>> 96ee2dba2479de758984df88fee3f449e79dfc69
 int _printf(const char *format, ...);
 int handle_print(const char *fmt, int *i,
 va_list list, char buffer[], int flags, int width, int precision, int size);
